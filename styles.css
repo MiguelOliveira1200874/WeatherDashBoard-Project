@@ -7,6 +7,13 @@ body {
     background-color: #f4f4f4;
 }
 
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+}
+
 #weather-data {
     margin: 2em auto;
     padding: 2em;
@@ -20,17 +27,20 @@ body {
 form {
     margin: 2em auto;
     max-width: 600px;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
 }
 
 input[type="text"] {
     padding: 0.5em;
-    width: 70%;
+    flex-grow: 1;
     border: none;
     border-radius: 4px;
     box-shadow: 0px 0px 5px #aaa;
 }
 
-button[type="submit"] {
+button[type="submit"], button[type="button"] {
     padding: 0.5em 2em;
     border: none;
     border-radius: 4px;
@@ -40,6 +50,16 @@ button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-button[type="submit"]:hover {
+button[type="submit"]:hover, button[type="button"]:hover {
     background-color: #444;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 1em 0;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
 }
