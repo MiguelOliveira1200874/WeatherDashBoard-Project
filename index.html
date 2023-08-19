@@ -14,14 +14,16 @@
     <form id="weather-form">
         <input type="text" id="city-input" placeholder="Enter a city">
         <button type="submit">Get Weather</button>
+        <button type="button" id="toggle-system">Switch to Imperial</button>
     </form>
     <div id="weather-data"></div>
     <div id="map" style="height: 400px; width: 100%;"></div>
     <footer>
         <p>Data provided by OpenWeatherMap API</p>
         <p>Created by Miguel Oliveira</p>
+        <p>Javascript Project to learn the basics and integration with API's</p>
     </footer>
     <script src="script.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+    <!-- Removed script tag for Google Maps API -->
 </body>
 </html>
