@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Weather Broadcast</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Official Weather Broadcast</h1>
+        <p>Your source for the most accurate weather updates</p>
+    </header>
+    <form id="weather-form">
+        <input type="text" id="city-input" placeholder="Enter a city">
+        <button type="submit">Get Weather</button>
+    </form>
+    <div id="weather-data"></div>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+    <footer>
+        <p>Data provided by OpenWeatherMap API</p>
+        <p>Created by Miguel Oliveira</p>
+    </footer>
+    <script src="script.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+</body>
+</html>
