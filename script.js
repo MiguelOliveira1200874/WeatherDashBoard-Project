@@ -16,22 +16,65 @@ function initMap(lat, lon) {
 // Your actual API key
 const API_KEY = '275cc0d086c603fc1252af8d769784a4';
 
+// Variable to store the current system (metric or imperial)
+let system = 'metric';
+
 // Function to get weather data for a given city or coordinates
 function getWeatherData(city) {
     let url;
     if (city) {
-        url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`;
+        url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=${system}&appid=${API_KEY}`;
     } else {
-        url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`;
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${system}&appid=${API_KEY}`;
     }
     fetch(url)
         .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('weather-data').innerHTML = 'An error occurred while fetching the weather data.';
-        });
+        .then(data => {
+            // Log the data to the console
+            console.log(data);
+
+            // Convert temperature from Kelvin to Celsius or Fahrenheit, depending on the system
+            const temp = system === 'metric' ? data.main.temp : (data.main.temp - 32) * 5/9;
+
+            // Convert wind speed from m/s to km/h or mph, depending on the system
+            const windSpeed = system === 'metric' ? data.wind.speed * 3.6 : data.wind.speed;
+
+            // Get the timezone offset in hours
+            const timezoneOffsetHours = data.timezone / 3600;
+
+            // Get the current date and time
+            const now = new Date();
+
+            // Get the local time in the city
+            const localTime = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours() + timezoneOffsetHours, now.getUTCMinutes(), now.getUTCSeconds());
+
+            // Display the data on the page
+            document.getElementById('weather-data').innerHTML = `
+                <h2>Weather in ${data.name}</h2>
+                <p>${data.weather[0].description}</p>
+                <p>Temperature: ${temp.toFixed(2)} ${system === 'metric' ? '°C' : '°F'}</p>
+                <p>Humidity: ${data.main.humidity}%</p>
+                <p>Wind Speed: ${windSpeed.toFixed(2)} ${system === 'metric' ? 'km/h' : 'mph'}</p>
+                <p>Local Time: ${localTime.toLocaleTimeString()}</p>
+            `;
+        })
+        .catch(error => console.error('Error:', error));
 }
+
+// Get reference to the system toggle button
+const toggleSystemButton = document.getElementById('toggle-system');
+
+// Add event listener to the system toggle button
+toggleSystemButton.addEventListener('click', function() {
+    // Toggle the system
+    system = system === 'metric' ? 'imperial' : 'metric';
+
+    // Update the button text
+    toggleSystemButton.textContent = `Switch to ${system === 'metric' ? 'Imperial' : 'Metric'}`;
+
+    // Fetch the weather data again to update the displayed values
+    getWeatherData(cityInput.value.trim());
+});
 
 // Get references to the form and city input
 const form = document.getElementById('weather-form');
@@ -61,8 +104,13 @@ form.addEventListener('submit', function(event) {
 
 // Update the getWeatherData function to display the data on the page
 function getWeatherData(city) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`)
-        .then(response => response.json())
+    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             // Log the data to the console
             console.log(data);
@@ -100,5 +148,8 @@ function getWeatherData(city) {
                 <p>Wind Speed: ${windSpeedKmh.toFixed(2)} km/h</p>
             `;
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('weather-data').innerHTML = 'An error occurred while fetching the weather data.';
+        });
 }
