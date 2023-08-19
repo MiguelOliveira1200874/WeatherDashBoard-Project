@@ -61,7 +61,7 @@ form.addEventListener('submit', function(event) {
 
 // Update the getWeatherData function to display the data on the page
 function getWeatherData(city) {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`)
         .then(response => response.json())
         .then(data => {
             // Log the data to the console
