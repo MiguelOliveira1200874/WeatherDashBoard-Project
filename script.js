@@ -14,7 +14,7 @@ function initMap(lat, lon) {
 }
 
 // Your actual API key
-const API_KEY = '275cc0d086c603fc1252af8d769784a4';
+const API_KEY = 'ac19721b4c5345c449d200ed55f84340';
 
 // Variable to store the current system (metric or imperial)
 let system = 'metric';
